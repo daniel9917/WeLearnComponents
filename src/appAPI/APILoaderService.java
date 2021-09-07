@@ -19,7 +19,7 @@ public class APILoaderService implements IComponentLoader  {
 		this.isConnected = false;
 		
 		//Se ejecuta la conexión
-		this.connect();
+				this.connect();
 		
 	}
 	

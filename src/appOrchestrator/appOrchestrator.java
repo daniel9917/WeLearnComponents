@@ -6,7 +6,7 @@ import appAPI.APILoaderService;
 import appCore.appCore;
 import appFrontEnd.FrontEndLoaderService;
 
-public class appOrchestrator {
+public class appOrchestrator extends Thread {
 
 	private List<String> connections;
 	private static APILoaderService API_Loader;
@@ -16,13 +16,26 @@ public class appOrchestrator {
 		//Core Welcoming
 		System.out.println("Welcome to " + appCore.getName());
 		
-		//Enabling connections with the API
-		apiConnection();
-		
-		//Enabling connections with the Front
-//		frontEndConnection();
 
+		Thread task1 = new Thread() {
+			//Enabling connections with the API
+			public void run() {
+				apiConnection();
+			}
+		};
+		
+		
+		Thread task2 = new Thread() {
+			//Enabling connections with the Front
+			public void run() {
+				frontEndConnection();
+			}
+		};
+		
+		task1.start();
+		task2.start();
 	}
+	
 
 	//Method that manages the connections with the API
 	public static void apiConnection() {
@@ -46,13 +59,13 @@ public class appOrchestrator {
 	
 	public static void frontEndConnection() {
 		
-		String front_path = "/any/path/to/build";
+		String front_path = "WeLearnUI";
 
 		// Conectando el API / Backend
 		try {
 			FRONT_Loader = new FrontEndLoaderService(front_path);
 		} catch (Exception e) {
-			System.err.print("There was an error when trying to connect to the " + "project file at: " + front_path
+			System.err.print("There was an error when trying to connect to the " + "project file at: executables/" + front_path
 					+ ".  \n Exception: " + e.getMessage());
 		}
 
